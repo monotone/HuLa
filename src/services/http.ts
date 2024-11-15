@@ -2,7 +2,6 @@ import { fetch } from '@tauri-apps/plugin-http'
 
 /**
  * @description 请求参数
- * @since Beta v0.5.1
  * @property {"GET"|"POST"|"PUT"|"DELETE"} method 请求方法
  * @property {Record<string, string>} [headers] 请求头
  * @property {Record<string, any>} [query] 请求参数
@@ -83,77 +82,3 @@ async function Http<T>(
 }
 
 export default Http
-
-// import { fetch } from '@tauri-apps/plugin-http';
-// import * as qs from 'qs';
-
-// const isAbsoluteURL = (url: string) => {
-//   return /^([a-z][a-z\d+\-.]*:)?\/\//i.test(url);
-// };
-
-// const combineURLs = (baseURL: string, relativeURL: string) => {
-//   return relativeURL
-//     ? baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '')
-//     : baseURL;
-// };
-
-// const buildFullPath = (baseURL: string, requestedURL: string) => {
-//   if (baseURL && !isAbsoluteURL(requestedURL)) {
-//     return combineURLs(baseURL, requestedURL);
-//   }
-//   return requestedURL;
-// };
-
-// const buildURL = (url: string | string[], params: any) => {
-//   if (!params) {
-//     return url;
-//   }
-//   const serializedParams = qs.stringify(params);
-//   if (serializedParams) {
-//     url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams;
-//   }
-//   return url;
-// };
-
-// const server = '';
-// const baseURL = `${server}/api/`;
-
-// const BODY_TYPE = {
-//   Form: 'Form',
-//   Json: 'Json',
-//   Text: 'Text',
-//   Bytes: 'Bytes',
-// };
-
-// const commonOptions = {
-//   timeout: 60,
-// };
-
-// const http = (url: string, options: any = {}) => {
-//   const params = { ...options.params };
-//   if (!options.headers) options.headers = {};
-//   // todo 可以往 headers 中添加 token 或 cookie 等信息
-
-//   if (options?.body) {
-//     if (options.body.type === BODY_TYPE.Form) {
-//       options.headers['Content-Type'] = 'multipart/form-data';
-//     }
-//   }
-
-//   options = { ...commonOptions, ...options };
-//   let fetchUrl:string = buildFullPath(baseURL, url)
-//   return fetch(<string>buildURL(fetchUrl, params), options)
-//     .then((res: any) => {
-//       const { status, data } = res
-//       if (status >= 200 && status < 400) {
-//         return { data };
-//       }
-//       return Promise.reject({ status, data });
-//     })
-//     .catch((err) => {
-//       console.error(err);
-//       return Promise.reject(err);
-//     });
-// };
-
-// export default http;

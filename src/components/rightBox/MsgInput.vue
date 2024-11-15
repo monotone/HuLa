@@ -13,7 +13,6 @@
         @keydown.exact.enter="inputKeyDown"
         @keydown.exact.meta.enter="inputKeyDown"
         @keydown.exact.ctrl.enter="inputKeyDown"></div>
-      <!-- TODO 这里的在win上会有延迟显示的bug (nyh -> 2024-09-01 23:40:44) -->
       <span
         v-if="isEntering"
         @click.stop="messageInputDom.focus()"
@@ -167,7 +166,7 @@ const handleAitKeyChange = (direction: 1 | -1) => {
   const newIndex = Math.max(0, Math.min(currentIndex + direction, personList.value.length - 1))
   selectedAitKey.value = personList.value[newIndex].uid
   // 获取新选中项在列表中的索引，并滚动到该位置(使用key来进行定位)
-  virtualListInst.value?.scrollTo({ key: selectedAitKey.value })
+  virtualListInst.value?.scrollTo({ index: newIndex })
 }
 
 const closeMenu = (event: any) => {

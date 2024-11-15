@@ -87,7 +87,7 @@ export const useCommon = () => {
    * @param { MsgEnum } type 插入的类型
    * @param dom dom节点
    */
-  const insertNode = (type: MsgEnum, dom: any) => {
+  const insertNode = (type: MsgEnum, dom: any, target: HTMLElement) => {
     const { selection, range } = getEditorRange()!
     // 删除选中的内容
     range?.deleteContents()
@@ -250,11 +250,15 @@ export const useCommon = () => {
       spaceNode.contentEditable = 'false'
       // 不可以选中
       spaceNode.style.userSelect = 'none'
+      // 插入一个br标签节点作为换行
+      const brNode = document.createElement('br')
+      // 将br标签节点插入到光标位置
+      range?.insertNode(brNode)
       // 将空格节点插入到光标位置
       range?.insertNode(spaceNode)
       range?.collapse(false)
     } else {
-      range?.insertNode(dom)
+      target.appendChild(dom)
     }
     // 将光标移到选中范围的最后面
     selection?.collapseToEnd()
@@ -275,7 +279,7 @@ export const useCommon = () => {
       img.style.maxWidth = '140px'
       img.style.marginRight = '6px'
       // 插入图片
-      insertNode(MsgEnum.IMAGE, img)
+      insertNode(MsgEnum.IMAGE, img, dom)
       triggerInputEvent(dom)
     }
     nextTick(() => {}).then(() => {
@@ -294,7 +298,7 @@ export const useCommon = () => {
     // 使用函数
     createFileOrVideoDom(file).then((imgTag) => {
       // 将生成的img标签插入到页面中
-      insertNode(type, imgTag)
+      insertNode(type, imgTag, dom)
       triggerInputEvent(dom)
     })
     nextTick(() => {}).then(() => {
@@ -336,7 +340,7 @@ export const useCommon = () => {
     } else {
       // 如果没有文件，而是文本，处理纯文本粘贴
       const plainText = e.clipboardData.getData('text/plain')
-      insertNode(MsgEnum.TEXT, plainText)
+      insertNode(MsgEnum.TEXT, plainText, dom)
       triggerInputEvent(dom)
     }
   }
